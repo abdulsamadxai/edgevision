@@ -2,10 +2,6 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://nonmatrimonial-macy-pseudoancestrally.ngrok-free.dev/api/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
