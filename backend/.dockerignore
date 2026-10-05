@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+storage/uploads/*
+storage/outputs/*
+storage/previews/*
+!storage/uploads/.gitkeep
+!storage/outputs/.gitkeep
+!storage/previews/.gitkeep
+.git
+.gitignore

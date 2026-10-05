@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+dist/
+frontend/dist/
+.vercel/
+frontend/.vercel/
+
+# Python
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# EdgeVision Storage - Ignore video files, keep directory structure
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+backend/storage/outputs/*
+!backend/storage/outputs/.gitkeep
+backend/storage/previews/*
+!backend/storage/previews/.gitkeep
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+frontend/.env
+frontend/.env.local
+
+# Operating system / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

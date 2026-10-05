@@ -1,0 +1,4 @@
+@import "tailwindcss";
+body{background:#000;color:#fff;font-family:ui-sans-serif,system-ui,sans-serif}
+.grid-bg{background-image:linear-gradient(#ffffff0d 1px,transparent 1px),linear-gradient(90deg,#ffffff0d 1px,transparent 1px);background-size:40px 40px}
+input[type=range]{accent-color:#fff;width:100%}
