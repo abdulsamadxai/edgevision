@@ -73,11 +73,11 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [s, setS] = useState({
     mode: "clean_canny",
-    low: 50,
-    high: 150,
-    noise_removal: 50,
+    low: 35,
+    high: 100,
+    noise_removal: 40,
     detail: 50,
-    thickness: 30,
+    thickness: 20,
     stability: 60,
     output: "original"
   });

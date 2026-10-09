@@ -19,9 +19,9 @@ app.add_middleware(
 MAX_BYTES = 2 * 1024**3; EXTS = {".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"}
 
 class ProcessRequest(BaseModel):
-    mode: str = "clean_canny"; low: int = Field(50, ge=0, le=255); high: int = Field(150, ge=1, le=500)
-    noise_removal: int = Field(50, ge=0, le=100); detail: int = Field(50, ge=0, le=100)
-    thickness: int = Field(30, ge=0, le=100); stability: int = Field(60, ge=0, le=100)
+    mode: str = "clean_canny"; low: int = Field(35, ge=0, le=255); high: int = Field(100, ge=1, le=500)
+    noise_removal: int = Field(40, ge=0, le=100); detail: int = Field(50, ge=0, le=100)
+    thickness: int = Field(20, ge=0, le=100); stability: int = Field(60, ge=0, le=100)
     output: str = "original"; preview: bool = False
 
 def job_or_404(jid):
