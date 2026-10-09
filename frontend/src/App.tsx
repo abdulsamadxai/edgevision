@@ -81,6 +81,7 @@ export default function App() {
     stability: 60,
     output: "original"
   });
+  const [localSrc, setLocalSrc] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [rev, setRev] = useState(0);
   const orig = useRef<HTMLVideoElement>(null);
@@ -124,6 +125,11 @@ export default function App() {
     setErr(null);
     setBusy(true);
     setJob(null);
+    if (localSrc) {
+      URL.revokeObjectURL(localSrc);
+    }
+    const blobUrl = URL.createObjectURL(f);
+    setLocalSrc(blobUrl);
     try {
       const fd = new FormData();
       fd.append("file", f);
@@ -184,11 +190,14 @@ export default function App() {
     }
   }
 
-  const cancel = () =>
-    job &&
-    fetch(`${API_BASE}/api/videos/${job.id}`, { method: "DELETE", headers: HEADERS })
-      .then(() => setJob(null))
-      .catch(() => setJob(null));
+  const cancel = () => {
+    if (localSrc) URL.revokeObjectURL(localSrc);
+    setLocalSrc(null);
+    if (job) {
+      fetch(`${API_BASE}/api/videos/${job.id}`, { method: "DELETE", headers: HEADERS }).catch(() => {});
+      setJob(null);
+    }
+  };
 
   const sync = (a: "play" | "pause" | "seek") => {
     const o = orig.current;
@@ -277,8 +286,10 @@ export default function App() {
                     <div className="text-xs tracking-widest text-neutral-500 mb-1">ORIGINAL</div>
                     <video
                       ref={orig}
-                      src={mediaUrl(`/api/videos/${job.id}/original`)}
+                      src={localSrc || mediaUrl(`/api/videos/${job.id}/original`)}
                       controls
+                      playsInline
+                      preload="auto"
                       className="w-full bg-black border border-white/15"
                       onPlay={() => sync("play")}
                       onPause={() => sync("pause")}
@@ -294,6 +305,8 @@ export default function App() {
                         ref={edge}
                         key={rev}
                         muted={!!showPreview}
+                        playsInline
+                        preload="auto"
                         src={mediaUrl(
                           `/api/videos/${job.id}/${job.preview ? "preview" : "download"}?v=${rev}`
                         )}

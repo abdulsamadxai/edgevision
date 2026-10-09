@@ -70,20 +70,26 @@ def process(jid: str, req: ProcessRequest):
 @app.get("/api/videos/{jid}/status")
 def status(jid: str): return public(job_or_404(jid))
 
-@app.get("/api/videos/{jid}/original")
-def original(jid: str): return FileResponse(job_or_404(jid)["src"])
+@app.api_route("/api/videos/{jid}/original", methods=["GET", "HEAD"])
+def original(jid: str):
+    job = job_or_404(jid)
+    src = Path(job["src"])
+    media_type = "video/mp4" if src.suffix.lower() == ".mp4" else "video/quicktime" if src.suffix.lower() == ".mov" else "video/webm"
+    return FileResponse(src, media_type=media_type, headers={"Accept-Ranges": "bytes"})
 
-@app.get("/api/videos/{jid}/preview")
+@app.api_route("/api/videos/{jid}/preview", methods=["GET", "HEAD"])
 def preview(jid: str):
-    job_or_404(jid); f = J.ROOT / "previews" / f"{jid}.mp4"
+    job_or_404(jid)
+    f = J.ROOT / "previews" / f"{jid}.mp4"
     if not f.exists(): raise HTTPException(404, "No preview yet")
-    return FileResponse(f, media_type="video/mp4")
+    return FileResponse(f, media_type="video/mp4", headers={"Accept-Ranges": "bytes"})
 
-@app.get("/api/videos/{jid}/download")
+@app.api_route("/api/videos/{jid}/download", methods=["GET", "HEAD"])
 def download(jid: str):
-    job_or_404(jid); f = J.ROOT / "outputs" / f"{jid}.mp4"
+    job_or_404(jid)
+    f = J.ROOT / "outputs" / f"{jid}.mp4"
     if not f.exists(): raise HTTPException(404, "Output not ready")
-    return FileResponse(f, media_type="video/mp4", filename="edgevision.mp4")
+    return FileResponse(f, media_type="video/mp4", filename="edgevision.mp4", headers={"Accept-Ranges": "bytes"})
 
 @app.delete("/api/videos/{jid}")
 def delete(jid: str):
